@@ -6,19 +6,15 @@ dotenv.config({
 })
 // console.log(process.env.MONGODB_URI)
 connectDB()
-
-
-
-
-
-
-
-
-// ( async ()=> {
-//     try{
-//         await mongoose.connect(`${process.env.MONGODB_URI}/${DB_NAME}`)
-//     }catch(error){
-//         console.error("Error :" + error);
-//         throw error
-//     }
-// })()
+.then(()=> {
+    app.on("error", (error) => {
+        console.log("Error : ", error)
+        throw error
+    })
+    app.listen(process.env.PORT || 8000, () => {
+        console.log(`Server is running at port : ${process.env.PORT}`)
+    })
+})
+.catch((err)=>{
+    console.log("MongoDB connection failed! : ", err)
+})
